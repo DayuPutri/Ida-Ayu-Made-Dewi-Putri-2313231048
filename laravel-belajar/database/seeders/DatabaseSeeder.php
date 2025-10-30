@@ -2,22 +2,42 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\User;
+use App\Models\Produk;
+use App\Models\Distributor;
+use Faker\Factory as Faker;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $faker = Faker::create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // 10 Dummy User (email unique random)
+        for ($i = 1; $i <= 10; $i++) {
+            User::create([
+                'nama' => $faker->name,
+                'email' => $faker->unique()->safeEmail,
+            ]);
+        }
+
+        // 10 Dummy Produk (nama/harga random)
+        for ($i = 1; $i <= 10; $i++) {
+            Produk::create([
+                'nama' => $faker->words(2, true),
+                'harga' => $faker->numberBetween(50000, 10000000),
+                'gambar' => $faker->imageUrl(300, 200, 'tech'),
+            ]);
+        }
+
+        // 10 Dummy Distributor (nama/alamat/telepon random)
+        for ($i = 1; $i <= 10; $i++) {
+            Distributor::create([
+                'nama' => $faker->company,
+                'alamat' => $faker->address,
+                'telepon' => $faker->phoneNumber, // Fix: Isi 'telepon' random
+            ]);
+        }
     }
 }

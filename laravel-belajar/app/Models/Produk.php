@@ -9,7 +9,10 @@ class Produk extends Model
 {
     use HasFactory;
 
-    protected $table = 'produk'; // Override nama tabel default 'produks' jadi 'produk'
+    protected $fillable = ['nama', 'harga', 'gambar', 'distributor_id'];
 
-    protected $fillable = ['nama', 'harga']; // Kolom yang bisa diisi otomatis dari form
+    public function distributor()
+    {
+        return $this->belongsTo(Distributor::class);
+    }
 }

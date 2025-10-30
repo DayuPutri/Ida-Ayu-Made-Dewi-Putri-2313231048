@@ -3,19 +3,22 @@
 @section('content')
 <div class="row justify-content-center">
     <div class="col-md-10">
-        <h2 class="text-primary mb-4">Data User</h2>
+        <h2 class="text-primary mb-4">Data Distributor</h2>
+        <!-- Tombol Tambah & Back to Menu -->
         <div class="mb-3">
-            <a href="/user/create" class="btn btn-success me-2">Tambah User</a>
-            <a href="/produk" class="btn btn-secondary">Back to Menu</a>
+            <a href="/distributor/create" class="btn btn-success me-2">Tambah Distributor</a>
+            <a href="/" class="btn btn-secondary">Back to Menu</a>
         </div>
+
+        <!-- Form Search & Dropdown Per Halaman -->
         <div class="row mb-3">
             <div class="col-md-5">
-                <form method="GET" action="/user">
-                    <input type="text" name="search" class="form-control" placeholder="Cari nama atau email..." value="{{ request('search') }}">
+                <form method="GET" action="/distributor">
+                    <input type="text" name="search" class="form-control" placeholder="Cari nama atau alamat..." value="{{ request('search') }}">
                 </form>
             </div>
             <div class="col-md-3">
-                <form method="GET" action="/user" class="d-inline">
+                <form method="GET" action="/distributor" class="d-inline">
                     <input type="hidden" name="search" value="{{ request('search') }}">
                     <select name="per_page" onchange="this.form.submit()" class="form-select">
                         <option value="5" {{ request('per_page', 5) == 5 ? 'selected' : '' }}>5 per halaman</option>
@@ -25,26 +28,28 @@
                 </form>
             </div>
         </div>
+
+        <!-- Tabel Data dengan Aksi -->
         <div class="table-responsive">
             <table class="table table-striped table-hover">
                 <thead class="table-dark">
                     <tr>
                         <th>No</th>
                         <th>Nama</th>
-                        <th>Email</th>
+                        <th>Alamat</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($users as $user)
+                    @forelse ($distributors as $distributor)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $user->nama }}</td>
-                            <td>{{ $user->email }}</td>
+                            <td>{{ $distributor->nama }}</td>
+                            <td>{{ $distributor->alamat }}</td>
                             <td>
-                                <a href="/user/{{ $user->id }}" class="btn btn-info btn-sm me-1">Detail</a>
-                                <a href="/user/{{ $user->id }}/edit" class="btn btn-warning btn-sm me-1">Edit</a>
-                                <form method="POST" action="/user/{{ $user->id }}" style="display: inline;">
+                                <a href="/distributor/{{ $distributor->id }}" class="btn btn-info btn-sm me-1">Detail</a>
+                                <a href="/distributor/{{ $distributor->id }}/edit" class="btn btn-warning btn-sm me-1">Edit</a>
+                                <form method="POST" action="/distributor/{{ $distributor->id }}" style="display: inline;">
                                     @csrf @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin hapus?')">Hapus</button>
                                 </form>
@@ -52,12 +57,14 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="text-center text-muted">Tidak ada data user.</td>
+                            <td colspan="4" class="text-center text-muted">Tidak ada data distributor.</td>
                         </tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
+
+        <!-- Pagination Sederhana -->
         <div class="d-flex justify-content-center mt-3">
             <nav aria-label="Pagination">
                 <ul class="pagination">
